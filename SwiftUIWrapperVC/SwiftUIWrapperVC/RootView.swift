@@ -24,7 +24,7 @@ struct RootView: NavigatableView {
     }
     
     func didTapButton() {
-        let destination = SwiftUIWrapperVC(content: StackView())        
+        let destination = SwiftUIWrapperVC(content: StackView())
         navigator?.navigate(to: destination)
     }
 }

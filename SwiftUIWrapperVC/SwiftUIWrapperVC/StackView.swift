@@ -21,7 +21,6 @@ struct StackView: NavigatableView {
                 Text("dismiss")
             }
         }
-        
     }
     
     func didTapDismiss() {

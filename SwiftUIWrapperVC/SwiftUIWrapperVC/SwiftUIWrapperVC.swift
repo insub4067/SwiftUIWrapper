@@ -8,20 +8,17 @@
 import SwiftUI
 
 class SwiftUIWrapperVC<Content: NavigatableView>: UIViewController {
-    
+        
     // MARK: - Properties
     private var contentView: UIView!
     private var content: Content
     
-    let navigator: VCNavigator
-    
     // MARK: - Init
     init(content: Content) {
-        self.navigator = VCNavigator()
         self.content = content
-        self.content.navigator = self.navigator
         super.init(nibName: nil, bundle: nil)
-        self.navigator.parentVC = self
+        let navigator = VCNavigator(self)
+        self.content.navigator = navigator
     }
     
     required init?(coder: NSCoder) {
@@ -32,17 +29,9 @@ class SwiftUIWrapperVC<Content: NavigatableView>: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setView()
+        hideNavigationBar()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        hideNavigationBar(animated)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
+
     // MARK: - Action
     func setView() {
         contentView = UIView(frame: view.bounds)
@@ -55,11 +44,9 @@ class SwiftUIWrapperVC<Content: NavigatableView>: UIViewController {
         hController.view.frame = contentView.frame
     }
     
-    func hideNavigationBar(_ animated: Bool) {
-        if #unavailable(iOS 16) {
-            DispatchQueue.main.async { [weak self] in
-                self?.navigationController?.setNavigationBarHidden(true, animated: animated)
-            }
+    func hideNavigationBar() {
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationController?.setNavigationBarHidden(true, animated: false)
         }
     }
 }
@@ -67,6 +54,10 @@ class SwiftUIWrapperVC<Content: NavigatableView>: UIViewController {
 class VCNavigator {
     
     weak var parentVC: UIViewController?
+    
+    init(_ parentVC: UIViewController) {
+        self.parentVC = parentVC
+    }
     
     func navigate(to destination: UIViewController) {
         parentVC?.navigationController?.pushViewController(destination, animated: true)
