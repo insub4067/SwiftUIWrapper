@@ -1,7 +1,8 @@
 # SwiftUIWrapperVC
 
 기존 UIKit 프로젝트에서 SwiftUI 자유롭게 사용하기 위해 고민하다 만들게 되었습니다.  
-NavigationController 를 캡슐화하여 UIKit, SwiftUI 모두에서 통일된 Navigate 방식을 사용할 수 있습니다.
+NavigationController 를 캡슐화하여 UIKit, SwiftUI 모두에서 통일된 Navigate 방식을 사용할 수 있습니다.  
+그리고 기존 SwiftUI 처럼 View 에서 직접 Navigation 을 하지 않고 navigator 라는 객체를 통해 ViewModel 혹은 외부에서 화면을 전환할 수 있다는 장점도 있습니다.
 
 간단한 코드 예시와 구현 화면은 아래와 같습니다 👇👇
 
