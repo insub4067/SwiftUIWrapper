@@ -53,11 +53,9 @@ class SwiftUIWrapperVC<Content: NavigatableView>: UIViewController {
 
 class VCNavigator {
     
-    weak var parentVC: UIViewController?
+    weak private var parentVC: UIViewController?
     
-    init(_ parentVC: UIViewController) {
-        self.parentVC = parentVC
-    }
+    init(_ parentVC: UIViewController) { self.parentVC = parentVC }
     
     func navigate(to destination: UIViewController) {
         parentVC?.navigationController?.pushViewController(destination, animated: true)
