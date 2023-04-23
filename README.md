@@ -27,6 +27,7 @@ func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options conn
     guard let windowScene = (scene as? UIWindowScene) else { return }
     window = UIWindow(frame: windowScene.coordinateSpace.bounds)
     window?.windowScene = windowScene
+    
     let vc = SwiftUIWrapperVC(content: RootView())
     let nc = UINavigationController(rootViewController: vc)
     window?.rootViewController = nc
