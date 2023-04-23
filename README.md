@@ -10,13 +10,22 @@ NavigationController 를 캡슐화하여 UIKit, SwiftUI 모두에서 통일된 N
 
 ✔️ SwiftUI Side 
 ```
-func didTapButton() {
-    let destination = SwiftUIWrapperVC(content: StackView())
-    navigator?.navigate(to: destination)
-}
-
-func didTapDismiss() {
-    navigator?.dismiss()
+struct ContentView: NavigatableView {
+    
+    var navigator: VCNavigator?
+    
+    var body: some View {
+       ...
+    }
+    
+    func didTapButton() {
+        let destination = SwiftUIWrapperVC(content: StackView())
+        navigator?.navigate(to: destination)
+    }
+    
+    func didTapDismiss() {
+        navigator?.dismiss()
+    }
 }
 ```
 
