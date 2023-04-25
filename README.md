@@ -23,9 +23,9 @@ SwiftUI, UIKit 를 같이 사용하다 보니 통일되지 못한 화면 전환 
 
 ✔️ SwiftUI Side 
 ```
-struct ContentView: NavigatableView {
+struct RootView: NavigatableView {
     
-    var navigator: VCNavigator?
+    weak var navigator: VCNavigator?
     
     var body: some View {
        ...
