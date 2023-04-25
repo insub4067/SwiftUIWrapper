@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RootView: NavigatableView {
     
-    var navigator: VCNavigator?
+    weak var navigator: VCNavigator?
     
     var body: some View {
         VStack(spacing: 16) {
