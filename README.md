@@ -1,6 +1,6 @@
 # SwiftUIWrapperVC
 
-## 👀 해결하고자하는 문제
+## 👀 해결하고자 하는 문제
 기존 UIKit 프로젝트에서 SwiftUI 를 자유롭게 사용하기 위해 고민하다 만들게 되었습니다.   
 UIHostingController 를 통해 SwiftUI View 를 호출하게 될 경우 예상하지 못한 많은 버그를 마주하곤 합니다.  
 그러한 이슈를 미리 예방할 수 있는 방법을 고민하다 고안하게 되었습니다.  
