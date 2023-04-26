@@ -8,17 +8,20 @@
 import SwiftUI
 
 class SwiftUIWrapperVC<Content: NavigatableView>: UIViewController {
-        
+    
     // MARK: - Properties
     private var contentView: UIView!
     private var content: Content
     
+    let navigator: VCNavigator
+    
     // MARK: - Init
     init(content: Content) {
+        self.navigator = VCNavigator()
         self.content = content
+        self.content.navigator = self.navigator
         super.init(nibName: nil, bundle: nil)
-        let navigator = VCNavigator(self)
-        self.content.navigator = navigator
+        self.navigator.parentVC = self
     }
     
     required init?(coder: NSCoder) {
@@ -29,9 +32,18 @@ class SwiftUIWrapperVC<Content: NavigatableView>: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setView()
-        hideNavigationBar()
     }
-
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        hideNavigationBar(false)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        GlobalValue.currentVC = self
+    }
+    
     // MARK: - Action
     func setView() {
         contentView = UIView(frame: view.bounds)
@@ -43,24 +55,16 @@ class SwiftUIWrapperVC<Content: NavigatableView>: UIViewController {
         contentView.addSubview(hController.view)
         hController.view.frame = contentView.frame
     }
-    
-    func hideNavigationBar() {
-        DispatchQueue.main.async { [weak self] in
-            self?.navigationController?.setNavigationBarHidden(true, animated: false)
-        }
-    }
 }
 
 class VCNavigator {
     
-    weak private var parentVC: UIViewController?
-    
-    init(_ parentVC: UIViewController) { self.parentVC = parentVC }
-    
+    weak var parentVC: UIViewController?
+
     func navigate(to destination: UIViewController) {
         parentVC?.navigationController?.pushViewController(destination, animated: true)
     }
-    
+
     func dismiss() {
         parentVC?.navigationController?.popViewController(animated: true)
     }
