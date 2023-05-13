@@ -50,9 +50,14 @@ class SwiftUIWrapperVC<Content: NavigatableView>: UIViewController {
 @MainActor
 class VCNavigator {
     
-    weak var parentVC: UIViewController?
+    private(set) weak var parentVC: UIViewController?
+    
+    func set(controller: UIViewController) {
+        self.parentVC = controller
+    }
 
-    func navigate(to destination: UIViewController) {
+    // MARK: - Navigation
+    func push(to destination: UIViewController) {
         parentVC?.navigationController?.pushViewController(destination, animated: true)
     }
     
@@ -75,6 +80,15 @@ class VCNavigator {
     
     func pop() {
         self.parentVC?.navigationController?.popViewController(animated: true)
+    }
+    
+    // MARK: - Modal
+    func present(to destination: UIViewController, style: UIModalPresentationStyle = .fullScreen) {
+        self.parentVC?.present(destination, animated: true)
+    }
+    
+    func dismiss() {
+        self.parentVC?.dismiss(animated: true)
     }
 }
 
