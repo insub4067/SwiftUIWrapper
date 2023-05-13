@@ -55,8 +55,8 @@ func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options conn
     window = UIWindow(frame: windowScene.coordinateSpace.bounds)
     window?.windowScene = windowScene
     
-    let vc = SwiftUIWrapperVC(content: RootView())
-    let nc = UINavigationController(rootViewController: vc)
+    let controller = RootView().wrap()
+    let nc = UINavigationController(rootViewController: controller)
     window?.rootViewController = nc
     window?.makeKeyAndVisible()
 }
