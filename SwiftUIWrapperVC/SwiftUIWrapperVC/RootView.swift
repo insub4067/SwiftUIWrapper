@@ -24,8 +24,10 @@ struct RootView: NavigatableView {
     }
     
     @MainActor func didTapButton() {
-        let destination = StackView().wrap()
-        navigator?.navigate(to: destination)
+        let destination = StackView
+            .init()
+            .wrap()
+        navigator?.push(to: destination)
     }
 }
 
