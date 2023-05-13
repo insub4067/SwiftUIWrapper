@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StackView: NavigatableView {
     
-    weak private var navigator: VCNavigator?
+    weak var navigator: VCNavigator?
     
     var body: some View {
         VStack(spacing: 16) {
@@ -23,8 +23,8 @@ struct StackView: NavigatableView {
         }
     }
     
-    func didTapDismiss() {
-        navigator?.dismiss()
+    @MainActor func didTapDismiss() {
+        navigator?.pop()
     }
 }
 
