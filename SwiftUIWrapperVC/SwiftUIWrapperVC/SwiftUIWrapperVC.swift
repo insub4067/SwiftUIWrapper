@@ -81,3 +81,10 @@ class VCNavigator {
 protocol NavigatableView: View {
     var navigator: VCNavigator? { get set }
 }
+
+extension NavigatableView {
+    
+    func wrap() -> SwiftUIWrapperVC<Self> {
+        return SwiftUIWrapperVC(content: self)
+    }
+}
