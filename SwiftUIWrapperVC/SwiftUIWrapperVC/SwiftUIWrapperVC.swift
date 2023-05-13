@@ -34,11 +34,6 @@ class SwiftUIWrapperVC<Content: NavigatableView>: UIViewController {
         setView()
     }
     
-    
-    override func viewWillAppear(_ animated: Bool) {
-        hideNavigationBar(false)
-    }
-    
     // MARK: - Action
     func setView() {
         contentView = UIView(frame: view.bounds)
