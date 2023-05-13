@@ -78,6 +78,7 @@ class VCNavigator {
     }
 }
 
+@MainActor
 protocol NavigatableView: View {
     var navigator: VCNavigator? { get set }
 }
