@@ -47,16 +47,13 @@ class SwiftUIWrapperVC<Content: NavigatableView>: UIViewController {
     }
 }
 
+@MainActor
 class VCNavigator {
     
     weak var parentVC: UIViewController?
 
     func navigate(to destination: UIViewController) {
         parentVC?.navigationController?.pushViewController(destination, animated: true)
-    }
-
-    func dismiss() {
-        parentVC?.navigationController?.popViewController(animated: true)
     }
     
     func popTo(type: AnyClass) {
