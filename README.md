@@ -1,4 +1,4 @@
-# SwiftUIAdapter
+# SwiftUIWrapper
 
 ## 👀 해결하고자 하는 문제
 기존 UIKit 프로젝트에서 SwiftUI 를 자유롭게 사용하기 위해 고민하다 만들게 되었습니다.   
