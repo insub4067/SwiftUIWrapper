@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RootView: NavigatableView {
     
-    weak private var navigator: VCNavigator?
+    weak var navigator: VCNavigator?
     
     var body: some View {
         VStack(spacing: 16) {
@@ -23,8 +23,8 @@ struct RootView: NavigatableView {
         }
     }
     
-    func didTapButton() {
-        let destination = SwiftUIWrapperVC(content: StackView())
+    @MainActor func didTapButton() {
+        let destination = StackView().wrap()
         navigator?.navigate(to: destination)
     }
 }
