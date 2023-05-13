@@ -38,7 +38,7 @@ struct RootView: NavigatableView {
     
     func didTapButton() {
         let destination = SwiftUIWrapperVC(content: StackView())
-        navigator?.navigate(to: destination)
+        navigator?.push(to: destination)
     }
     
     func didTapDismiss() {
@@ -55,7 +55,9 @@ func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options conn
     window = UIWindow(frame: windowScene.coordinateSpace.bounds)
     window?.windowScene = windowScene
     
-    let controller = RootView().wrap()
+    let controller = RootView
+        .init()
+        .wrap()
     let nc = UINavigationController(rootViewController: controller)
     window?.rootViewController = nc
     window?.makeKeyAndVisible()
