@@ -37,7 +37,7 @@ struct RootView: NavigatableView {
     }
     
     func didTapDismiss() {
-        navigator?.dismiss()
+        navigator?.pop()
     }
 }
 ```
