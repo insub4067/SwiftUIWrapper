@@ -9,6 +9,11 @@ SwiftUI, UIKit 를 같이 사용하다 보니 통일되지 못한 화면 전환 
 그래서 NavigationController 를 캡슐화하여 UIKit, SwiftUI 모두에서 통일된 방법으로 화면 전환 할 수 있도록 구조화 하였습니다.  
 또한 기존 SwiftUI 처럼 View 에서 직접 Navigation 을 하지 않고 navigator 라는 객체를 통해 ViewModel 혹은 외부에서 화면을 전환할 수 있다는 장점도 있습니다.
 
+## 🛠️ 사용된 디자인 패턴
+
+- Adapter Pattern
+- Command Pattern
+
 ## 👍 장점
 
 1. NavigationController 를 캡슐화하고 구조화 하여 UIKit, SwiftUI 두 프레임워크에서 일관된 방법으로 자유롭게 화면 전환 할 수 있습니다.
@@ -56,3 +61,6 @@ func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options conn
     window?.makeKeyAndVisible()
 }
 ```
+
+## 📚 참고 (서적)
+- [헤드 퍼스트 디자인 패턴](http://www.yes24.com/Product/Goods/108192370?pid=123487&cosemkid=go16481149710577107&gclid=CjwKCAjw6vyiBhB_EiwAQJRoppBl2zaSsFHSQovHwwz5gbVKrcYWoSBxIo4HnnMMQknyohEXXuY3jRoCr9oQAvD_BwE)
