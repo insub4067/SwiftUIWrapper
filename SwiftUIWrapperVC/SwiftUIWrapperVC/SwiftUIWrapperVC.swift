@@ -68,6 +68,27 @@ class VCNavigator {
     func dismiss() {
         parentVC?.navigationController?.popViewController(animated: true)
     }
+    
+    func popTo(type: AnyClass) {
+        guard let parentVC, let nc = parentVC.navigationController else { return }
+        for vc in nc.viewControllers {
+            guard vc.isMember(of: type) else { continue }
+            nc.popToViewController(vc, animated: true)
+        }
+    }
+    
+    func popTo(types: AnyClass...) {
+        guard let parentVC, let nc = parentVC.navigationController else { return }
+        for vc in nc.viewControllers {
+            let result = types.contains(where: { vc.isMember(of: $0) })
+            guard result else { continue }
+            nc.popToViewController(vc, animated: true)
+        }
+    }
+    
+    func pop() {
+        self.parentVC?.navigationController?.popViewController(animated: true)
+    }
 }
 
 protocol NavigatableView: View {
