@@ -56,18 +56,18 @@ class VCNavigator {
         parentVC?.navigationController?.pushViewController(destination, animated: true)
     }
     
-    func popTo(type: AnyClass) {
+    func pop(to controller: AnyClass) {
         guard let parentVC, let nc = parentVC.navigationController else { return }
         for vc in nc.viewControllers {
-            guard vc.isMember(of: type) else { continue }
+            guard vc.isMember(of: controller) else { continue }
             nc.popToViewController(vc, animated: true)
         }
     }
     
-    func popTo(types: AnyClass...) {
+    func pop(to controllers: AnyClass...) {
         guard let parentVC, let nc = parentVC.navigationController else { return }
         for vc in nc.viewControllers {
-            let result = types.contains(where: { vc.isMember(of: $0) })
+            let result = controllers.contains(where: { vc.isMember(of: $0) })
             guard result else { continue }
             nc.popToViewController(vc, animated: true)
         }
