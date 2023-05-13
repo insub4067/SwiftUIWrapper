@@ -16,7 +16,7 @@ SwiftUI, UIKit 를 같이 사용하다 보니 통일되지 못한 화면 전환 
 
 ## 👍 장점
 
-1. NavigationController 를 캡슐화하고 구조화 하여 UIKit, SwiftUI 두 프레임워크에서 일관된 방법으로 자유롭게 화면 전환 할 수 있습니다.
+1. NavigationController 를 SwiftUI 에서 도 UIKit 와 일관된 방법으로 화면 전환 할 수 있습니다.
 
 2. 기존 SwiftUI 처럼 View 에서 직접 navigate 하지 않고 navigator 라는 객체를 통해 viewModel 등에서 navigation 을 할 수 있습니다.
 
