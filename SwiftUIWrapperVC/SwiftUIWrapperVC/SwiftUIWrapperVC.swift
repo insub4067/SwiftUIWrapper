@@ -21,7 +21,7 @@ class SwiftUIWrapperVC<Content: NavigatableView>: UIViewController {
         self.content = content
         self.content.navigator = self.navigator
         super.init(nibName: nil, bundle: nil)
-        self.navigator.parentVC = self
+        self.navigator.set(controller: self)
     }
     
     required init?(coder: NSCoder) {
