@@ -17,7 +17,11 @@ class SwiftUIWrapperVC<Content: WrappableView>: UIViewController, ToastMessageCo
     var backgroundColor: UIColor?
     
     // MARK: - Init
-    init(content: Content, backgroundColor: UIColor? = nil, hideBottomBar: Bool = true) {
+    init(
+        content: Content, 
+        backgroundColor: UIColor? = nil, 
+        hideBottomBar: Bool = true
+    ) {
         self.navigator = VCNavigator()
         self.content = content
         self.content.navigator = self.navigator
@@ -177,8 +181,12 @@ protocol WrappableView: View {
 
 extension WrappableView {
     
-    func wrap(backgroundColor: UIColor? = nil, hideBottomBar: Bool = true) -> SwiftUIWrapperVC<Self> {
-        return SwiftUIWrapperVC(
+    func wrap(
+        backgroundColor: UIColor? = nil, 
+        hideBottomBar: Bool = true
+    ) -> SwiftUIWrapperVC<Self> {
+        
+        SwiftUIWrapperVC(
             content: self,
             backgroundColor: backgroundColor,
             hideBottomBar: hideBottomBar
