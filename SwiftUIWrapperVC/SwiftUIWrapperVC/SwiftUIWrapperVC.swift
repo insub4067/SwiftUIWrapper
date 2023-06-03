@@ -7,21 +7,24 @@
 
 import SwiftUI
 
-class SwiftUIWrapperVC<Content: NavigatableView>: UIViewController {
+class SwiftUIWrapperVC<Content: WrappableView>: UIViewController, ToastMessageCommand {
     
     // MARK: - Properties
-    private var contentView: UIView!
-    private var content: Content
+    var hController = UIHostingController<Content?>(rootView: nil)
+    var content: Content
     
     let navigator: VCNavigator
+    var backgroundColor: UIColor?
     
     // MARK: - Init
-    init(content: Content) {
+    init(content: Content, backgroundColor: UIColor? = nil, hideBottomBar: Bool = true) {
         self.navigator = VCNavigator()
         self.content = content
         self.content.navigator = self.navigator
+        self.backgroundColor = backgroundColor
         super.init(nibName: nil, bundle: nil)
         self.navigator.set(controller: self)
+        self.hidesBottomBarWhenPushed = hideBottomBar
     }
     
     required init?(coder: NSCoder) {
@@ -34,16 +37,32 @@ class SwiftUIWrapperVC<Content: NavigatableView>: UIViewController {
         setView()
     }
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        hideNavigationBar(false)
+    }
+    
     // MARK: - Action
     func setView() {
-        contentView = UIView(frame: view.bounds)
-        let hController = UIHostingController(rootView: self.content)
+        hController = UIHostingController(rootView: self.content)
+        hController.view.frame = view.frame
+        
+        if let backgroundColor {
+            hController.view.backgroundColor = backgroundColor
+            view.backgroundColor = backgroundColor
+        }
         
         addChild(hController)
-        view.addSubview(contentView)
-        
-        contentView.addSubview(hController.view)
-        hController.view.frame = contentView.frame
+        view.addSubview(hController.view)
+    }
+    
+    // MARK: ToastMessageCommand
+    func handleBlackToast(_ message: String, top: CGFloat) {
+        blackToast(message, top: top)
+    }
+    
+    func handleToast(_ message: String) {
+        showToast(message: message)
     }
 }
 
@@ -52,10 +71,18 @@ class VCNavigator {
     
     private(set) weak var parentVC: UIViewController?
     
+    var window: UIWindow? {
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        let window = windowScene?.windows.first
+        
+        return window
+    }
+    
     func set(controller: UIViewController) {
         self.parentVC = controller
     }
-
+    
     // MARK: - Navigation
     func push(to destination: UIViewController) {
         parentVC?.navigationController?.pushViewController(destination, animated: true)
@@ -63,42 +90,98 @@ class VCNavigator {
     
     func pop(to controller: AnyClass) {
         guard let parentVC, let nc = parentVC.navigationController else { return }
-        for vc in nc.viewControllers {
-            guard vc.isMember(of: controller) else { continue }
-            nc.popToViewController(vc, animated: true)
-        }
+        guard let target = nc.viewControllers.first(where: { $0.isMember(of: controller) } ) else { return }
+        nc
+            .popToViewController(
+                target,
+                animated: true
+            )
     }
     
     func pop(to controllers: AnyClass...) {
         guard let parentVC, let nc = parentVC.navigationController else { return }
         for vc in nc.viewControllers {
-            let result = controllers.contains(where: { vc.isMember(of: $0) })
+            let result = controllers
+                .contains(where: {
+                    vc.isMember(of: $0)
+                })
             guard result else { continue }
-            nc.popToViewController(vc, animated: true)
+            nc
+                .popToViewController(
+                    vc, animated: true
+                )
         }
     }
     
     func pop() {
-        self.parentVC?.navigationController?.popViewController(animated: true)
+        self
+            .parentVC?
+            .navigationController?
+            .popViewController(
+                animated: true
+            )
     }
     
     // MARK: - Modal
-    func present(to destination: UIViewController, style: UIModalPresentationStyle = .fullScreen) {
-        self.parentVC?.present(destination, animated: true)
+    func present(to destination: UIViewController, style: UIModalPresentationStyle = .fullScreen, animation: Bool = true) {
+        destination.modalPresentationStyle = style
+        self
+            .parentVC?
+            .present(
+                destination,
+                animated: animation
+            )
+    }
+
+    func dismiss(animation: Bool = true) {
+        self
+            .parentVC?
+            .dismiss(
+                animated: animation
+            )
     }
     
-    func dismiss() {
-        self.parentVC?.dismiss(animated: true)
+    func removeFromParentAndSuperView() {
+        parentVC?
+            .removeFromParentAndSuperView()
+    }
+    
+    func customModal(_ controller: UIViewController) {
+        window?
+            .rootViewController?
+            .addChildAndSubView(
+                controller
+            )
     }
 }
 
-protocol NavigatableView: View {
+extension UIViewController {
+    
+    func addChildAndSubView(_ controller: UIViewController) {
+        self.addChild(controller)
+        controller.view.frame = self.view.frame
+        self.view.addSubview(controller.view)
+        controller.didMove(toParent: self)
+    }
+    
+    func removeFromParentAndSuperView() {
+        self.willMove(toParent: nil)
+        self.view.removeFromSuperview()
+        self.removeFromParent()
+    }
+}
+
+protocol WrappableView: View {
     var navigator: VCNavigator? { get set }
 }
 
-extension NavigatableView {
+extension WrappableView {
     
-    func wrap() -> SwiftUIWrapperVC<Self> {
-        return SwiftUIWrapperVC(content: self)
+    func wrap(backgroundColor: UIColor? = nil, hideBottomBar: Bool = true) -> SwiftUIWrapperVC<Self> {
+        return SwiftUIWrapperVC(
+            content: self,
+            backgroundColor: backgroundColor,
+            hideBottomBar: hideBottomBar
+        )
     }
 }
