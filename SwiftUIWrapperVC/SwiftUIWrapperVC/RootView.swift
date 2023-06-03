@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RootView: NavigatableView {
+struct RootView: WrappableView {
     
     weak var navigator: VCNavigator?
     
