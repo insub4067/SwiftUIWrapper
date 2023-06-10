@@ -93,9 +93,17 @@ class VCNavigator {
     }
     
     func pop(to controller: AnyClass) {
-        guard let parentVC, let nc = parentVC.navigationController else { return }
-        guard let target = nc.viewControllers.first(where: { $0.isMember(of: controller) } ) else { return }
-        nc
+        guard let parentVC, let nController = parentVC.navigationController else { return }
+        guard let target = nController
+            .viewControllers
+            .first(
+                where: { 
+                    $0.isMember(of: controller) 
+                } 
+            ) 
+        else { return }
+        
+        nController
             .popToViewController(
                 target,
                 animated: true
@@ -103,16 +111,23 @@ class VCNavigator {
     }
     
     func pop(to controllers: AnyClass...) {
-        guard let parentVC, let nc = parentVC.navigationController else { return }
-        for vc in nc.viewControllers {
+        
+        guard let parentVC, 
+              let nController = parentVC.navigationController 
+        else { return }
+        
+        for vController in nController.viewControllers {
+            
             let result = controllers
                 .contains(where: {
-                    vc.isMember(of: $0)
+                    vController.isMember(of: $0)
                 })
+            
             guard result else { continue }
-            nc
+            
+            nController
                 .popToViewController(
-                    vc, animated: true
+                    vController, animated: true
                 )
         }
     }
