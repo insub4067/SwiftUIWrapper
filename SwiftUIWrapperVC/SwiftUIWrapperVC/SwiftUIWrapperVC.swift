@@ -49,16 +49,13 @@ class SwiftUIWrapperVC<Content: WrappableView>: UIViewController, ToastMessageCo
     // MARK: - Action
     func setView() {
         hController = UIHostingController(rootView: self.content)
-        hController.view.frame = view.frame
         
         if let backgroundColor {
             hController.view.backgroundColor = backgroundColor
             view.backgroundColor = backgroundColor
         }
         
-        addChild(hController)
-        view.addSubview(hController.view)
-        hController.didMove(toParent: self)
+        addChildAndSubView(hController)
     }
 }
 
