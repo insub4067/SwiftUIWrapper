@@ -58,15 +58,7 @@ class SwiftUIWrapperVC<Content: WrappableView>: UIViewController, ToastMessageCo
         
         addChild(hController)
         view.addSubview(hController.view)
-    }
-    
-    // MARK: ToastMessageCommand
-    func handleBlackToast(_ message: String, top: CGFloat) {
-        blackToast(message, top: top)
-    }
-    
-    func handleToast(_ message: String) {
-        showToast(message: message)
+        hController.didMove(toParent: self)
     }
 }
 
